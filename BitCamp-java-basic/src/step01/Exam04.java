@@ -3,6 +3,7 @@ package step01;
 public class Exam04{
     public static void main(String[] args){
         //숫자
+        //정수 값은 4byte 또는 8byte 크기로 밖에 표현할 수 없다.
         //정수 - 4byte 크기의 정수
         System.out.println(10);
         System.out.println(+10);
