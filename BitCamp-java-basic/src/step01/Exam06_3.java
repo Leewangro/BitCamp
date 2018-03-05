@@ -7,3 +7,9 @@ public class Exam06_3{
         System.out.println(12.375f);
     }
 }
+
+//컴파일 한 후
+//Exam06_3.class 파일을
+//visual studio code의 hexadump 기능을 활용하여
+//16진수 코드를 확인해보라
+//중간에 12.375의 2진수 값인 41 46 00 00값을 볼 수 있을 것이다.

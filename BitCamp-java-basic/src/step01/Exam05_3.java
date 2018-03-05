@@ -1,4 +1,4 @@
-//정수 literal 3-메모리
+//정수 literal 3-메모리의 크기
 package step01;
 public class Exam05_3{
     public static void main(String[] args){
