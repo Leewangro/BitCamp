@@ -1,0 +1,50 @@
+package bitcamp.java106.pms;
+import java.util.Scanner;
+import bitcamp.java106.pms.domain.Team;
+
+public class App_1 {
+    public static void main(String[] args) {
+        java.io.InputStream keyboard = System.in;
+        Scanner keyScan = new Scanner(keyboard);
+
+        //팀 정보를 받을 메모리 준비
+        Team[] teams = new Team[100];
+
+        for(int i = 0; i < 3; i++) {
+
+            teams[i] = new Team();
+            
+            System.out.print("팀명? ");
+            teams[i].teamName = keyScan.nextLine();
+
+            System.out.print("설명? ");
+            teams[i].description = keyScan.nextLine();
+
+            System.out.print("최대인원? ");
+            teams[i].maxQty = keyScan.nextInt();
+            keyScan.nextLine(); // 숫자 뒤에 줄바꿈 코드를 읽는다.
+                                // 읽고 난 뒤에 아무것도 안하기 때문에 
+                                // 일종의 줄바꿈 코드를 제거하는 효과가 있다.
+
+            System.out.print("시작일? ");
+            teams[i].startDate = keyScan.nextLine();
+
+            System.out.print("종료일? ");
+            teams[i].endDate = keyScan.nextLine();
+        }
+
+        System.out.println("-----------------------------");
+        for ( int i = 0 ; i < 3; i++) {
+            System.out.print("팀명: ");
+            System.out.println(teams[i].teamName);
+            System.out.println("설명: ");
+            System.out.println(teams[i].description);
+            System.out.print("최대인원: ");
+            System.out.println(teams[].maxQty);
+            System.out.print("일자: ");
+            System.out.print(teams[i].startDate);
+            System.out.print(" ~ ");
+            System.out.println(teams[i].endDate);
+        }
+    }
+}

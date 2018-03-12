@@ -15,8 +15,8 @@ public class Exam07_1{
       System.out.println(b1);
       System.out.println(b2);
       //true, false 대신에 직접 0,1인 정수 값을 저장하려 해서는 안된다
-      //b1=1;
-      //b2=2;
+      //b1=1; 컴파일 오류
+      //b2=2; 컴파일 오류
     }
 }
 
