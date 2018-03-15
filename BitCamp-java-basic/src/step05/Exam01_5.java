@@ -9,7 +9,7 @@ public class Exam01_5 {
 
         //else는 가장 가까운if에 소속된다
         //들여쓰기에 속지말라
-        if (age >= 19)
+        if (age >= 19 && age <=70)
             if(age >=70)
                 System.out.println("노인");
         else

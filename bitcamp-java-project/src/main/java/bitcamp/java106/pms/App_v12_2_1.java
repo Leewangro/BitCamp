@@ -5,42 +5,29 @@ import bitcamp.java106.pms.domain.Team;
 import bitcamp.java106.pms.domain.Member;
 import java.util.Scanner;
 
-// ver 0.1 - 명령 입력 프롬프트를 출력한다. 
-// ver 0.2 - 사용자로부터 입력을 받아 출력한다.
-// ver 0.3 - 사용자로부터 입력 받는 것을 무한 반복한다.
-// ver 0.4 - quit 명령어 입력 시 반복문을 종료한다.
-// ver 0.5 - help 명령을 구현한다.
-// ver 0.6 - team/add 명령을 구현한다.
-// ver 0.7 - team/list 명령을 구현한다.
-// ver 0.8 - team/view 명령을 구현한다.
-    // 1단계: 입력 값에서 명령어와 검색어를 구분한다.
-    // 2단계: 기능이나 코드가 바뀌면 그에 따라 적절히 변수명도 바뀔 필요가 있다.
-    // 3단계: 입력 값에서 검색어를 별도의 변수에 저장한다.
-    // 4단계: 팀명이 없으면 안내문구를 출력한다.
-    // 5단계: 팀명으로 배열을 뒤져 팀 정보를 찾는다.
-    // 6단계: 팀명으로 검색할 때 대소문자를 구분하지 않는다.
-    // 7단계: 팀명이 일치하는 팀이 없으면 안내 문구를 출력한다.
-    // ver 0.9 - member/add 명령을 구현한다.
-        // 회원 정보를 담을 새로운 데이터 타입을 정의한다. => Member.java
-        // 여러 회원 정보를 저장할 레퍼런스 배열을 준비한다.
-// ver 1.0 - member/list 명령을 구현한다.
-// ver 1.1 - member/view 명령을 구현한다.
-// ver 1.2 - 명령어를 잘못 입력했을 때 안내 문구를 출력한다.
         
-public class App{
+public class App_v12_2{ 
+    //클래스 변수 = 스태틱 변수
+    static Scanner keyScan = new Scanner(System.in); //scanner을 쓰겠다는 명령문
+
+    static String[] prompt(){
+        System.out.print("명령> ");
+        return keyScan.nextLine().toLowerCase().split(" ");
+
+    }
     public static void main(String[] args) {
-        Scanner keyScan = new Scanner(System.in); //scanner을 쓰겠다는 명령문
+       
         
-        Team[] teams = new Team[1000]; //Team 클래스를 여러번 사용하기 위해 teams라는 배열을 만든다
-        int teamIndex = 0; //배열주소의 시작위치를 0으로 초기화한다(왜? 0부터 접근하여 차례대로 저장하기 위하여)
+        Team[] teams = new Team[1000]; 
+        int teamIndex = 0; 
 
         Member[] members = new Member[1000];
         int memberIndex = 0;
         
         while(true){
 
-            System.out.print("명령> ");
-            String[] arr = keyScan.nextLine().toLowerCase().split(" ");
+            String[] arr = prompt();
+
             String menu = arr[0];
             String option = null; // 문자열 없음!
             if (arr.length == 2) {
