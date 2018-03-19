@@ -1,12 +1,10 @@
 package bitcamp.java106.pms;
 
-
-import bitcamp.java106.pms.util.Console;
-import bitcamp.java106.pms.domain.Team;
-import bitcamp.java106.pms.controller.TeamController;
-import bitcamp.java106.pms.controller.MemberController;
-import bitcamp.java106.pms.domain.Member;
 import java.util.Scanner;
+
+import bitcamp.java106.pms.controller.MemberController;
+import bitcamp.java106.pms.controller.TeamController;
+import bitcamp.java106.pms.util.Console;
 
 // ver 0.2 - member 메뉴를 처리하는 코드를 관련 클래스인
 public class App_final3 {

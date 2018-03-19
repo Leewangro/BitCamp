@@ -1,4 +1,4 @@
-package bitcamp.java106.pms;
+package bitcamp.java106.pms.src01;
 
 
 import bitcamp.java106.pms.domain.Team;
