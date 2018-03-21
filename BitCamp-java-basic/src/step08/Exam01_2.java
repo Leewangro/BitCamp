@@ -43,6 +43,8 @@ public class Exam01_2 {
         s3.math = 90;
         s3.sum = s3.kor + s3.eng + s3.math;
         s3.average = s3.sum / 3f;
+        
+        
     }
 
 }

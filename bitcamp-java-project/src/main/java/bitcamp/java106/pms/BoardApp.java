@@ -23,7 +23,6 @@ public class BoardApp {
        BoardController.keyScan = keyScan;
        Console.keyScan = keyScan;
          
-
        while (true) {
            String[] arr = Console.prompt();
            String menu = arr[0];
