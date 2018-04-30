@@ -22,4 +22,5 @@ public class Calculator2 {
     public static void divide(int value) {
         result  /= value; 
         }
+    
 }
