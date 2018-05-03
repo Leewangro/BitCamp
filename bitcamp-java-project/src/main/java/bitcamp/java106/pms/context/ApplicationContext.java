@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import bitcamp.java106.pms.annotation.Component;
+import org.springframework.stereotype.Component;
 
 public class ApplicationContext {
 
