@@ -4,7 +4,6 @@ import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-// 의존 객체 Engine 주입 - 셋터 메서드에 @Autowired로 표시하라!
 public class Car5 {
     String model;
     String maker;
@@ -12,11 +11,12 @@ public class Car5 {
     boolean auto;
     Date createdDate;
     
-    
-    @Autowired(required = false) 
+    // @Autowired의 required 값은 기본이 true이다.
+    // => 즉 의존객체 주입이 필수사항이다.
+    // => 선택사항으로 바꾸고 싶으면 false로 설정하라! 
+    @Autowired(required=false) 
     Engine engine;
     
-       
     @Override
     public String toString() {
         return "Car [model=" + model + ", maker=" + maker + ", cc=" + cc + ", auto=" + auto + ", createdDate="

@@ -1,4 +1,4 @@
-// 의존 객체 주입 자동화하기 - XML로 설정하기
+// 의존 객체 주입 자동화하기 - 필수 의존 객체와 선택 의존 객체
 package bitcamp.java106.step08;
 
 import org.springframework.context.ApplicationContext;

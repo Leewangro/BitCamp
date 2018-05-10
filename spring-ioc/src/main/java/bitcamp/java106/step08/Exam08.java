@@ -6,7 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import bitcamp.java106.BeanUtils;
 
-public class Exam07 {
+public class Exam08 {
 
     public static void main(String[] args) {
         // @Qualifier 애노테이션을 붙이면,
@@ -18,7 +18,7 @@ public class Exam07 {
         // => @Qualifier 애노테이션을 처리할 BeanPostProcessor를 등록하면 된다.
         // 
         ApplicationContext iocContainer = new ClassPathXmlApplicationContext(
-                "bitcamp/java106/step08/application-context-07.xml");
+                "bitcamp/java106/step08/application-context-08.xml");
         
         // Car 객체를 꺼내 Engine 객체가 주입되었는지 확인해보자!
         System.out.println(iocContainer.getBean("c1"));

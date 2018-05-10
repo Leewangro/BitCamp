@@ -2,20 +2,20 @@ package bitcamp.java106.step08;
 
 import java.sql.Date;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-public class Car6 {
+import org.springframework.stereotype.Component;
+@Component
+public class Car7 {
     String model;
     String maker;
     int cc;
     boolean auto;
     Date createdDate;
     
-    @Autowired 
-    @Qualifier("e2") // 의존 객체가 여러 개 있을 경우, 주입할 의존 객체의 이름을 지정하라!
-                     // 주의!
-                     // @Qualifier 애노테이션을 처리할 BeanPostProcessor를 등록해야 한다.
+    @Resource(name="e1")
     Engine engine;
     
     @Override
