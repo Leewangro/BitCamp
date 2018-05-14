@@ -23,7 +23,7 @@ import javax.servlet.annotation.WebServlet;
 //
 // 이렇게 만든 서블릿을 실행하려면 서블릿 컨테이너에 등록해야 한다.
 // @WebServlet("실행할 때 사용할 이름")
-// => 실행할 때 사용할 이름
+// => 실행할 때 사용할 이름, - 서블릿 클래스의 요청을 위한 URL 매핑을 보다 쉽게 자바 클래스에서 설정할 수 있도록 제공되는 어노테이션 입니다.
 //    - root 경로(/)로 시작한다.
 //    - 웹브라우저에서 요청할 때 사용할 이름이다.
 //    - 파일 경로처럼 중간에 슬래시(/)를 사용하여 이름을 길게 지을 수 있다.
@@ -35,6 +35,11 @@ import javax.servlet.annotation.WebServlet;
 @WebServlet("/step01/exam01")
 public class Exam01 implements Servlet {
     ServletConfig config;
+    
+    public Exam01() {
+        System.out.println("Exam01()");
+    }
+    
     @Override
     public void init(ServletConfig config) throws ServletException {
         // 객체 생성(생성자가 호출된 후) 후 호출된다.
@@ -55,7 +60,7 @@ public class Exam01 implements Servlet {
     public void destroy() {
         // 웹 애플리케이션을 멈추거나 서블릿 컨테이너를 종료할 때 호출된다.
         // =>init()에서 준비한 자원을 해제시키는 코드를 여기에 둔다.
-        System.out.println("Exam01.destroy");
+        System.out.println("Exam01.destroy()");
         
     }
     @Override
