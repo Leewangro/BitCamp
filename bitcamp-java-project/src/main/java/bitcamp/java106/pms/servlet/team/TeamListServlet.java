@@ -1,11 +1,12 @@
 // Controller 규칙에 따라 메서드 작성
-package bitcamp.java106.pms.controller.team;
+package bitcamp.java106.pms.servlet.team;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,44 +20,37 @@ import bitcamp.java106.pms.server.ServerRequest;
 import bitcamp.java106.pms.server.ServerResponse;
 import bitcamp.java106.pms.servlet.InitServlet;
 
-@Component("/team/add")
-public class TeamAddController extends HttpServlet {
+@SuppressWarnings("serial")
+@WebServlet("/team/list")
+public class TeamListServlet extends HttpServlet {
 
-    
-    private static final long serialVersionUID = 1L;
     TeamDao teamDao;
-    
+
     @Override
     public void init() throws ServletException {
         teamDao = InitServlet.getApplicationContext().getBean(TeamDao.class);
     }
-    
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-        request.setCharacterEncoding("UTF-8");
 
-        Team team = new Team();
-        team.setName(request.getParameter("name"));
-        team.setDescription(request.getParameter("description"));
-        team.setMaxQty(Integer.parseInt(request.getParameter("maxQty")));
-        team.setStartDate(Date.valueOf(request.getParameter("startDate")));
-        team.setEndDate(Date.valueOf(request.getParameter("endDate")));
-        
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-        teamDao.insert(team);
-        out.println("등록 성공!");
-        } catch (Exception e) {
-            out.println("등록 실패!");
+            List<Team> list = teamDao.selectList();
+            for (Team team : list) {
+                out.printf("%s, %d, %s ~ %s\n", 
+                        team.getName(), team.getMaxQty(), 
+                        team.getStartDate(), team.getEndDate());
+            }
+        }catch (Exception e) {
+            out.println("목록 가져오기 실패!");
             e.printStackTrace(out);
         }
     }
 }
 
 //ver 28 - 네트워크 버전으로 변경
-//ver 26 - TeamController에서 add() 메서드를 추출하여 클래스로 정의.
+//ver 26 - TeamController에서 list() 메서드를 추출하여 클래스로 정의.
 //ver 23 - @Component 애노테이션을 붙인다.
 //ver 22 - TaskDao 변경 사항에 맞춰 이 클래스를 변경한다.
 //ver 18 - ArrayList가 적용된 TeamDao를 사용한다.

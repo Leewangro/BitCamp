@@ -1,4 +1,4 @@
-package bitcamp.java106.pms;
+package home;
 import java.util.Scanner;
 import bitcamp.java106.pms.domain.Team;
 

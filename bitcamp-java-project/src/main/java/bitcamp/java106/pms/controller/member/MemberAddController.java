@@ -26,7 +26,7 @@ public class MemberAddController implements Controller {
         member.setId(request.getParameter("id"));
         member.setEmail(request.getParameter("email"));
         member.setPassword(request.getParameter("password"));
-
+                
         PrintWriter out = response.getWriter();
         try {
             memberDao.insert(member);
