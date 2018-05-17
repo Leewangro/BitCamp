@@ -15,8 +15,8 @@ import bitcamp.java106.pms.domain.Member;
 import bitcamp.java106.pms.servlet.InitServlet;
 
 @SuppressWarnings("serial")
-@WebServlet("/member/add")
-public class MemberAddServlet extends HttpServlet {
+@WebServlet("/member/update")
+public class MemberUpdateServlet extends HttpServlet {
 
     MemberDao memberDao;
     
@@ -24,7 +24,7 @@ public class MemberAddServlet extends HttpServlet {
     public void init() throws ServletException {
         memberDao = InitServlet.getApplicationContext().getBean(MemberDao.class);
     }
-    
+
     @Override
     protected void doPost(
             HttpServletRequest request, 
@@ -36,7 +36,7 @@ public class MemberAddServlet extends HttpServlet {
         member.setId(request.getParameter("id"));
         member.setEmail(request.getParameter("email"));
         member.setPassword(request.getParameter("password"));
-
+        
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
@@ -45,17 +45,20 @@ public class MemberAddServlet extends HttpServlet {
         out.println("<head>");
         out.println("<meta charset='UTF-8'>");
         out.println("<meta http-equiv='Refresh' content='1;url=list'>");
-        
-        out.println("<title>회원 등록</title>");
+        out.println("<title>회원 변경</title>");
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>회원 등록 결과</h1>");
+        out.println("<h1>회원 변경 결과</h1>");
         
         try {
-            memberDao.insert(member);
-            out.println("<p>등록 성공!</p>");
+            int count = memberDao.update(member);
+            if (count == 0) {
+                out.println("<p>해당 회원이 존재하지 않습니다.</p>");
+            } else {
+                out.println("<p>변경하였습니다.</p>");
+            }
         } catch (Exception e) {
-            out.println("<p>등록 실패!</p>");
+            out.println("<p>변경 실패!</p>");
             e.printStackTrace(out);
         }
         out.println("</body>");
@@ -67,7 +70,7 @@ public class MemberAddServlet extends HttpServlet {
 //ver 37 - 컨트롤러를 서블릿으로 변경
 //ver 31 - JDBC API가 적용된 DAO 사용
 //ver 28 - 네트워크 버전으로 변경
-//ver 26 - MemberController에서 add() 메서드를 추출하여 클래스로 정의.
+//ver 26 - MemberController에서 update() 메서드를 추출하여 클래스로 정의.
 //ver 23 - @Component 애노테이션을 붙인다.
 //ver 22 - MemberDao 변경 사항에 맞춰 이 클래스를 변경한다.
 //ver 18 - ArrayList가 적용된 MemberDao를 사용한다.

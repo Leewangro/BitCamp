@@ -1,5 +1,4 @@
-// Controller 규칙에 따라 메서드 작성
-package bitcamp.java106.pms.servlet.member;
+package bitcamp.java106.pms.servlet.team;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,33 +9,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bitcamp.java106.pms.dao.MemberDao;
-import bitcamp.java106.pms.domain.Member;
+import bitcamp.java106.pms.dao.TeamDao;
 import bitcamp.java106.pms.servlet.InitServlet;
 
 @SuppressWarnings("serial")
-@WebServlet("/member/add")
-public class MemberAddServlet extends HttpServlet {
+@WebServlet("/team/delete")
+public class TeamDeleteServlet extends HttpServlet {
 
-    MemberDao memberDao;
+    TeamDao teamDao;
     
     @Override
     public void init() throws ServletException {
-        memberDao = InitServlet.getApplicationContext().getBean(MemberDao.class);
+        teamDao = InitServlet.getApplicationContext().getBean(TeamDao.class);
     }
-    
+
     @Override
-    protected void doPost(
+    protected void doGet(
             HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
         
         request.setCharacterEncoding("UTF-8");
+        String name = request.getParameter("name");
         
-        Member member = new Member();
-        member.setId(request.getParameter("id"));
-        member.setEmail(request.getParameter("email"));
-        member.setPassword(request.getParameter("password"));
-
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
@@ -45,33 +39,36 @@ public class MemberAddServlet extends HttpServlet {
         out.println("<head>");
         out.println("<meta charset='UTF-8'>");
         out.println("<meta http-equiv='Refresh' content='1;url=list'>");
-        
-        out.println("<title>회원 등록</title>");
+        out.println("<title>팀 삭제</title>");
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>회원 등록 결과</h1>");
-        
+        out.println("<h1>팀 삭제 결과</h1>");
         try {
-            memberDao.insert(member);
-            out.println("<p>등록 성공!</p>");
+            int count = teamDao.delete(name);
+    
+            if (count == 0) {
+                out.println("<p>해당 팀이 없습니다.</p>");
+            } else {
+                out.println("<p>삭제하였습니다.</p>");
+            }
         } catch (Exception e) {
-            out.println("<p>등록 실패!</p>");
+            out.println("<p>삭제 실패!</p>");
             e.printStackTrace(out);
         }
         out.println("</body>");
         out.println("</html>");
     }
-
+    
 }
 
 //ver 37 - 컨트롤러를 서블릿으로 변경
 //ver 31 - JDBC API가 적용된 DAO 사용
 //ver 28 - 네트워크 버전으로 변경
-//ver 26 - MemberController에서 add() 메서드를 추출하여 클래스로 정의.
+//ver 26 - TeamController에서 delete() 메서드를 추출하여 클래스로 정의.
 //ver 23 - @Component 애노테이션을 붙인다.
-//ver 22 - MemberDao 변경 사항에 맞춰 이 클래스를 변경한다.
-//ver 18 - ArrayList가 적용된 MemberDao를 사용한다.
-//         onMemberList()에서 배열의 각 항목에 대해 null 값을 검사하는 부분을 제거한다.
+//ver 22 - TaskDao 변경 사항에 맞춰 이 클래스를 변경한다.
+//ver 18 - ArrayList가 적용된 TeamDao를 사용한다.
 //ver 16 - 인스턴스 변수를 직접 사용하는 대신 겟터, 셋터 사용.
-// ver 15 - MemberDao를 생성자에서 주입 받도록 변경.
-// ver 14 - MemberDao를 사용하여 회원 데이터를 관리한다.
+// ver 15 - TeamDao를 생성자에서 주입 받도록 변경.
+// ver 14 - TeamDao를 사용하여 팀 데이터를 관리한다.
+// ver 13 - 시작일, 종료일을 문자열로 입력 받아 Date 객체로 변환하여 저장.

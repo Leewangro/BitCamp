@@ -1,8 +1,8 @@
+// Controller 규칙에 따라 메서드 작성
 package bitcamp.java106.pms.servlet.team;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +15,8 @@ import bitcamp.java106.pms.domain.Team;
 import bitcamp.java106.pms.servlet.InitServlet;
 
 @SuppressWarnings("serial")
-@WebServlet("/team/list")
-public class TeamListServlet extends HttpServlet {
+@WebServlet("/team/view")
+public class TeamViewServlet extends HttpServlet {
 
     TeamDao teamDao;
     
@@ -24,12 +24,14 @@ public class TeamListServlet extends HttpServlet {
     public void init() throws ServletException {
         teamDao = InitServlet.getApplicationContext().getBean(TeamDao.class);
     }
-
-
+    
     @Override
     protected void doGet(
             HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
+
+        request.setCharacterEncoding("UTF-8");
+        String name = request.getParameter("name");
         
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -38,35 +40,53 @@ public class TeamListServlet extends HttpServlet {
         out.println("<html>");
         out.println("<head>");
         out.println("<meta charset='UTF-8'>");
-        out.println("<title>팀 목록</title>");
+        out.println("<title>팀 보기</title>");
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>팀 목록</h1>");
+        out.println("<h1>팀 보기</h1>");
+        out.println("<form action='update' method='post'>");
         
         try {
-            List<Team> list = teamDao.selectList();
+            Team team = teamDao.selectOne(name);
+    
+            if (team == null) {
+                throw new Exception("유효하지 않은 팀입니다.");
+            }
             
-            out.println("<p><a href='form.html'>새 팀</a></p>");
             out.println("<table border='1'>");
             out.println("<tr>");
-            out.println("    <th>팀명</th><th>최대인원</th><th>기간</th>");
+            out.printf("    <th>팀명</th><td><input type=\"text\" name=\"name\" value='%s' readonly></td>\n",
+                    team.getName());
             out.println("</tr>");
-            
-            for (Team team : list) {
-                out.println("<tr>");
-                out.printf("    <td><a href='view?name=%s'>%s</a></td><td>%d</td><td>%s~%s</td>\n",
-                        team.getName(),
-                        team.getName(),
-                        team.getMaxQty(), 
-                        team.getStartDate(), 
-                        team.getEndDate());
-                out.println("</tr>");
-            }
+            out.println("<tr>");
+            out.println("    <th>설명</th><td><textarea name=\"description\" ");
+            out.printf("        rows=\"6\" cols=\"60\">%s</textarea></td>\n",
+                    team.getDescription());
+            out.println("</tr>");
+            out.println("<tr>");
+            out.printf("    <th>최대인원</th><td><input type=\"number\" name=\"maxQty\" value='%d'></td>\n",
+                    team.getMaxQty());
+            out.println("</tr>");
+            out.println("<tr>");
+            out.printf("    <th>시작일</th><td><input type=\"date\" name=\"startDate\" value='%s'></td>\n", 
+                    team.getStartDate());
+            out.println("</tr>");
+            out.println("<tr>");
+            out.printf("    <th>종료일</th><td><input type=\"date\" name=\"endDate\" value='%s'></td>\n", 
+                    team.getEndDate());
+            out.println("</tr>");
             out.println("</table>");
+               
         } catch (Exception e) {
-            out.println("<p>목록 가져오기 실패!</p>");
+            out.printf("<p>%s</p>\n", e.getMessage());
             e.printStackTrace(out);
         }
+        out.println("<p>");
+        out.println("<a href='list'>목록</a>");
+        out.println("<button>변경</button>");
+        out.printf("<a href='delete?name=%s'>삭제</a>\n", name);
+        out.println("</p>");
+        out.println("</form>");
         out.println("</body>");
         out.println("</html>");
     }
@@ -75,7 +95,7 @@ public class TeamListServlet extends HttpServlet {
 //ver 37 - 컨트롤러를 서블릿으로 변경
 //ver 31 - JDBC API가 적용된 DAO 사용
 //ver 28 - 네트워크 버전으로 변경
-//ver 26 - TeamController에서 list() 메서드를 추출하여 클래스로 정의.
+//ver 26 - TeamController에서 view() 메서드를 추출하여 클래스로 정의.
 //ver 23 - @Component 애노테이션을 붙인다.
 //ver 22 - TaskDao 변경 사항에 맞춰 이 클래스를 변경한다.
 //ver 18 - ArrayList가 적용된 TeamDao를 사용한다.
