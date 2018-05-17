@@ -41,17 +41,25 @@
   </resultMap>
   
   <select id="selectList" 
-          resultMap="TaskMap" parameterType="String">
+          resultMap="TaskMap" parameterType="string">
     select tano, titl, sdt, edt, stat, mid, tnm 
     from pms2_task
-    where tnm=#{value}
+    where tnm=#{value} 
     <!--  limit #{startIndex}, #{pageSize} -->
   </select>
   
   <insert id="insert" parameterType="Task"
           useGeneratedKeys="true" keyColumn="tano" keyProperty="no">
-    insert into pms2_task(titl,sdt,edt,mid,tnm) 
-    values(#{title},#{startDate},#{endDate},#{worker.id},#{team.name})
+    <choose>
+	    <when test="worker.id != ''">
+		    insert into pms2_task(titl,sdt,edt,mid,tnm) 
+		    values(#{title},#{startDate},#{endDate},#{worker.id},#{team.name})
+	    </when>
+	    <otherwise>
+	       insert into pms2_task(titl,sdt,edt,tnm) 
+            values(#{title},#{startDate},#{endDate},#{team.name})
+	    </otherwise>
+    </choose>
   </insert>
   
   <select id="selectOne" parameterType="int" resultMap="TaskMap">
@@ -81,3 +89,4 @@
     where tano=#{no}
   </update>
 </mapper>
+
