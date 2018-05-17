@@ -59,7 +59,10 @@ public class TaskListServlet extends HttpServlet {
             out.printf("<p><a href='add?teamName=%s'>새작업</a></p>\n", teamName);
             out.println("<table border='1'>");
             out.println("<tr>");
-            out.println("    <th>번호</th><th>작업명</th><th>기간</th><th>작업자</th>");
+            out.println("    <th>번호</th>"
+                    + "<th>작업명</th>"
+                    + "<th>기간</th>"
+                    + "<th>작업자</th>");
             out.println("</tr>");
             
             for (Task task : list) {

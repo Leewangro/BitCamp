@@ -61,7 +61,7 @@ public class TaskAddServlet extends HttpServlet {
             }
             List<Member> members = teamMemberDao.selectListWithEmail(teamName);
             
-            out.println("<form action='add' method='post'>");
+            out.println("<form action='http://localhost:8888/bitcamp-java-project/task/add' method='post'>");
             out.printf("<input type='hidden' name='teamName' value='%s'>\n", teamName);
             out.println("<table border='1'>");
             out.println("<tr>");
@@ -82,14 +82,13 @@ public class TaskAddServlet extends HttpServlet {
             for (Member member : members) {
                 out.printf("            <option>%s</option>\n", member.getId());
             }
-            
             out.println("        </select>");
             out.println("    </td>");
             out.println("</tr>");
             out.println("</table>");
             out.println("<button>등록</button>");
             out.println("</form>");
-
+            
         } catch (Exception e) {
             out.printf("<p>%s</p>\n", e.getMessage());
             e.printStackTrace(out);
@@ -132,7 +131,7 @@ public class TaskAddServlet extends HttpServlet {
                 throw new Exception(task.getTeam().getName() + " 팀은 존재하지 않습니다.");
             }
             
-            if (task.getWorker().getId().length() > 0 &&
+            if (task.getWorker().getId().length() > 0 && // 작업자의 아이디 길이가 0보다 크면 작업자가 존재함!!
                 !teamMemberDao.isExist(
                     task.getTeam().getName(), task.getWorker().getId())) {
                 throw new Exception(task.getWorker().getId() + "는 이 팀의 회원이 아닙니다.");
