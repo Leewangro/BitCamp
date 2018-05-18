@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,19 +59,13 @@ public class TeamMemberAddServlet extends HttpServlet {
                 throw new Exception("이미 등록된 회원입니다.");
             
         } catch(Exception e) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<meta charset='UTF-8'>");
-            out.printf("<meta http-equiv='Refresh' content='1;url=../view?name=%s'>", teamName);
+            RequestDispatcher 요청배달자 = request.getRequestDispatcher("/error");
+            request.setAttribute("error", e);
+            request.setAttribute("title", "게시물 변경 실패");
+            // 다른 서블릿으로 실행을 위임할 때,
+            // 이전까지 버퍼로 출력한 데이터를 버린다.
             
-            out.println("<title>팀 등록 실패</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>팀 회원 등록 실패</h1>");
-            out.println("</body>");
-            out.println(" </html>");
-            e.printStackTrace(out);
+            요청배달자.forward(request, response);
         } 
             
         try {
@@ -79,18 +74,13 @@ public class TeamMemberAddServlet extends HttpServlet {
             
         } catch(Exception e) {
             
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<meta charset='UTF-8'>");
-            out.printf("<meta http-equiv='Refresh' content='1;url=../view?name=%s'>", teamName);
+            RequestDispatcher 요청배달자 = request.getRequestDispatcher("/error");
+            request.setAttribute("error", e);
+            request.setAttribute("title", "게시물 변경 실패");
+            // 다른 서블릿으로 실행을 위임할 때,
+            // 이전까지 버퍼로 출력한 데이터를 버린다.
             
-            out.println("<title>회원 등록 실패</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>팀 회원 등록 실패</h1>");
-            out.println("</body>");
-            out.println(" </html>");
+            요청배달자.forward(request, response);
             
         }
     }
