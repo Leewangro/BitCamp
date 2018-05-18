@@ -1,4 +1,3 @@
-// Controller 규칙에 따라 메서드 작성
 package bitcamp.java106.pms.servlet.team;
 
 import java.io.IOException;
@@ -34,7 +33,8 @@ public class TeamViewServlet extends HttpServlet {
     protected void doGet(
             HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
-        
+
+        request.setCharacterEncoding("UTF-8");
         String name = request.getParameter("name");
         
         response.setContentType("text/html;charset=UTF-8");
@@ -44,32 +44,47 @@ public class TeamViewServlet extends HttpServlet {
         out.println("<html>");
         out.println("<head>");
         out.println("<meta charset='UTF-8'>");
-        out.println("<title>팀 정보 보기</title>");
+        out.println("<title>팀 보기</title>");
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>팀 정보 보기</h1>");
+        out.println("<h1>팀 보기</h1>");
+        
         try {
             Team team = teamDao.selectOne(name);
     
             if (team == null) {
-                out.println("해당 이름의 팀이 없습니다.");
-            } 
+                throw new Exception("유효하지 않은 팀입니다.");
+            }
+            
             out.println("<form action='update' method='post'>");
             out.println("<table border='1'>");
-            out.printf("<tr><th>팀명</th><td><input type='text' name='name' value='%s' readonly></td></tr>\n",team.getName());
-            out.printf("<tr><th>설명</th><td><textarea name='description' rows='10' cols='60'>%s</textarea></td></tr>\n",team.getDescription());
-            out.printf("<tr><th>최대인원</th><td><input type='number' name='maxQty' value='%d'></td></tr>\n",team.getMaxQty());
-            out.printf("<tr>"
-                    + "<th>기간</th>"
-                    + "<td><input type='date' name='startDate' value='%s'> ~"
-                    + "<input type='date' name='endDate' value='%s'></td>"
-                    + "</tr>\n", team.getStartDate(), team.getEndDate());
+            out.println("<tr>");
+            out.printf("    <th>팀명</th><td><input type=\"text\" name=\"name\" value='%s' readonly></td>\n",
+                    team.getName());
+            out.println("</tr>");
+            out.println("<tr>");
+            out.println("    <th>설명</th><td><textarea name=\"description\" ");
+            out.printf("        rows=\"6\" cols=\"60\">%s</textarea></td>\n",
+                    team.getDescription());
+            out.println("</tr>");
+            out.println("<tr>");
+            out.printf("    <th>최대인원</th><td><input type=\"number\" name=\"maxQty\" value='%d'></td>\n",
+                    team.getMaxQty());
+            out.println("</tr>");
+            out.println("<tr>");
+            out.printf("    <th>시작일</th><td><input type=\"date\" name=\"startDate\" value='%s'></td>\n", 
+                    team.getStartDate());
+            out.println("</tr>");
+            out.println("<tr>");
+            out.printf("    <th>종료일</th><td><input type=\"date\" name=\"endDate\" value='%s'></td>\n", 
+                    team.getEndDate());
+            out.println("</tr>");
             out.println("</table>");
             out.println("<p>");
             out.println("<a href='list'>목록</a>");
             out.println("<button>변경</button>");
             out.printf("<a href='delete?name=%s'>삭제</a>\n", name);
-            out.printf("<a href='../task/list?teamName=%s'>작업목록</a>\n",name);
+            out.printf("<a href='../task/list?teamName=%s'>작업목록</a>\n", name);
             out.println("</p>");
             out.println("</form>");
             
@@ -77,34 +92,35 @@ public class TeamViewServlet extends HttpServlet {
             
             out.println("<h2>회원 목록</h2>");
             out.println("<form action='member/add' method='post'>");
-            out.println("<input type='text' name='memberId' placeholder='회원아이디'/>");
-            out.printf("<input type='hidden' name='teamName' value='%s'/>", name);
+            out.println("<input type='text' name='memberId' placeholder='회원아이디'>");
+            out.printf("<input type='hidden' name='teamName' value='%s'>\n", name);
             out.println("<button>추가</button>");
             out.println("</form>");
             out.println("<table border='1'>");
             out.println("<tr><th>아이디</th><th>이메일</th><th> </th></tr>");
-            for(Member member: members) {
-            out.printf("<tr>"
-                    + "<td>%s</td>"
-                    + "<td>%s</td>"
-                    + "<td><a href='member/delete?teamName=%s&memberId=%s'>삭제</a></td>"
-                    + "</tr>\n",
-                    member.getId(),
-                    member.getEmail(),
-                    name,
-                    member.getId());
+            for (Member member : members) {
+                out.printf("<tr>"
+                        + "<td>%s</td>"
+                        + "<td>%s</td>"
+                        + "<td><a href='member/delete?teamName=%s&memberId=%s'>삭제</a></td>"
+                        + "</tr>\n", 
+                        member.getId(), 
+                        member.getEmail(),
+                        name,
+                        member.getId());
             }
             out.println("</table>");
-            
-            
+               
         } catch (Exception e) {
-            out.printf("<p>&s</p>\n",e.getMessage());
+            out.printf("<p>%s</p>\n", e.getMessage());
+            e.printStackTrace(out);
         }
         out.println("</body>");
-        out.println("</html>"); 
+        out.println("</html>");
     }
 }
 
+//ver 37 - 컨트롤러를 서블릿으로 변경
 //ver 31 - JDBC API가 적용된 DAO 사용
 //ver 28 - 네트워크 버전으로 변경
 //ver 26 - TeamController에서 view() 메서드를 추출하여 클래스로 정의.

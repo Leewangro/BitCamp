@@ -28,7 +28,7 @@ public class TaskAddServlet extends HttpServlet {
     TeamMemberDao teamMemberDao;
 
     @Override
-    public void init() throws ServletException {
+    public void init() throws ServletException { //자원준비
         teamDao = InitServlet.getApplicationContext().getBean(TeamDao.class);
         taskDao = InitServlet.getApplicationContext().getBean(TaskDao.class);
         teamMemberDao = InitServlet.getApplicationContext().getBean(TeamMemberDao.class);
@@ -55,7 +55,7 @@ public class TaskAddServlet extends HttpServlet {
         out.printf("<h1>'%s' 팀의 작업 등록</h1>\n", teamName);
         
         try {
-            Team team = teamDao.selectOne(teamName);
+            Team team = teamDao.selectOne(teamName); //selectOne->디비 참조! teamName이라는 키값으로 모든 정보를 select해옴
             if (team == null) {
                 throw new Exception(teamName + " 팀은 존재하지 않습니다.");
             }
