@@ -37,6 +37,7 @@ public class TeamMemberDao {
             paramMap.put("teamName", teamName);
             paramMap.put("memberId", memberId);
             
+            
             int count = sqlSession.delete(
                     "bitcamp.java106.pms.dao.TeamMemberDao.delete", paramMap);
             sqlSession.commit();

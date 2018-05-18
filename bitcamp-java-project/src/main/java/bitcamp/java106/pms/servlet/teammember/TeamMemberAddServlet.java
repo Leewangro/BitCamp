@@ -3,6 +3,7 @@ package bitcamp.java106.pms.servlet.teammember;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,25 +37,15 @@ public class TeamMemberAddServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
         
         String teamName = request.getParameter("teamName");
         String memberId = request.getParameter("memberId");
         
-        PrintWriter out = response.getWriter();
-        
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<meta charset='UTF-8'>");
-        out.printf("<meta http-equiv='Refresh' content='1;url=../view?name=%s'>", teamName);
-        
-        out.println("<title>팀 등록</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>팀 회원 등록 결과</h1>");
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter(); 
                     
         try {
+            
             Team team = teamDao.selectOne(teamName);
             if (team == null)
                 throw new Exception("<p>" + teamName + " 팀은 존재하지 않습니다.</p>");
@@ -64,21 +55,43 @@ public class TeamMemberAddServlet extends HttpServlet {
                 throw new Exception("<p>" + memberId + " 회원은 없습니다.<p>");
             
             if (teamMemberDao.isExist(teamName, memberId))
-                throw new Exception("<p>이미 등록된 회원입니다.<p>");
+                throw new Exception("이미 등록된 회원입니다.");
             
         } catch(Exception e) {
-            out.println("<p>검색실패<p>");
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<meta charset='UTF-8'>");
+            out.printf("<meta http-equiv='Refresh' content='1;url=../view?name=%s'>", teamName);
+            
+            out.println("<title>팀 등록 실패</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>팀 회원 등록 실패</h1>");
+            out.println("</body>");
+            out.println(" </html>");
             e.printStackTrace(out);
-        }
+        } 
             
         try {
             teamMemberDao.insert(teamName, memberId);
-            out.println("<p>팀에 회원을 추가하였습니다.</p>");
+            response.sendRedirect("../view?name="+ URLEncoder.encode(teamName, "UTF-8"));
+            
         } catch(Exception e) {
-            out.printf("<p>%s<p>", e.getMessage());
-            e.printStackTrace(out);
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<meta charset='UTF-8'>");
+            out.printf("<meta http-equiv='Refresh' content='1;url=../view?name=%s'>", teamName);
+            
+            out.println("<title>회원 등록 실패</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>팀 회원 등록 실패</h1>");
+            out.println("</body>");
+            out.println(" </html>");
+            
         }
-        out.println("</body>");
-        out.println("</html>");
     }
 }

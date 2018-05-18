@@ -30,7 +30,7 @@
 	<delete id="delete" parameterType="map">
 		delete from pms2_team_member
 		where tnm=#{teamName} 
-		<if test= "memberID !=null">
+		<if test= "memberId !=null">
 		and mid=#{memberId}
 		</if>
 	</delete>
