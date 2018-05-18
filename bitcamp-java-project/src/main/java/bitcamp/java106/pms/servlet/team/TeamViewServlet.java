@@ -115,7 +115,7 @@ public class TeamViewServlet extends HttpServlet {
         } catch (Exception e) {
             RequestDispatcher 요청배달자 = request.getRequestDispatcher("/error");
             request.setAttribute("error", e);
-            request.setAttribute("title", "게시물 변경 실패");
+            request.setAttribute("title", "팀 상세 조회 실패");
             // 다른 서블릿으로 실행을 위임할 때,
             // 이전까지 버퍼로 출력한 데이터를 버린다.
             

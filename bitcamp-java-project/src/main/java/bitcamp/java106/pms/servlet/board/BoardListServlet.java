@@ -62,7 +62,6 @@ public class BoardListServlet extends HttpServlet {
                 out.println("</tr>");
             }
             out.println("</table>");
-            throw new Exception("예외 발생!");
         } catch (Exception e) {
             RequestDispatcher 요청배달자 = request.getRequestDispatcher("/error");
             request.setAttribute("error", e);
