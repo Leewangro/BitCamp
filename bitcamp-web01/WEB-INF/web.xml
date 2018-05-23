@@ -46,5 +46,14 @@
         <welcome-file>index.htm</welcome-file>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    
+    <context-param>
+        <param-name>p1</param-name>
+        <param-value>홍길동</param-value>
+    </context-param>
+    <context-param>
+        <param-name>p2</param-name>
+        <param-value>20</param-value>
+    </context-param>
 
 </web-app>

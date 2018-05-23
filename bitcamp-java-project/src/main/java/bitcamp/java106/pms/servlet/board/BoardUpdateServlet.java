@@ -1,7 +1,6 @@
 package bitcamp.java106.pms.servlet.board;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,27 +9,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+
 import bitcamp.java106.pms.dao.BoardDao;
 import bitcamp.java106.pms.domain.Board;
-import bitcamp.java106.pms.servlet.InitServlet;
+import bitcamp.java106.pms.support.WebApplicationContextUtils;
 
 @SuppressWarnings("serial")
-@WebServlet("/board/update") 
+@WebServlet("/board/update")
 public class BoardUpdateServlet extends HttpServlet {
     
     BoardDao boardDao;
     
     @Override
     public void init() throws ServletException {
-        boardDao = InitServlet.getApplicationContext().getBean(BoardDao.class);
+        ApplicationContext iocContainer = 
+                WebApplicationContextUtils.getWebApplicationContext(
+                        this.getServletContext()); 
+        boardDao = iocContainer.getBean(BoardDao.class);
     }
     
     @Override
     protected void doPost(
             HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
-        
-        request.setCharacterEncoding("UTF-8");
         
         try {
             Board board = new Board();
@@ -45,20 +47,17 @@ public class BoardUpdateServlet extends HttpServlet {
             response.sendRedirect("list");
             
         } catch (Exception e) {
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            
             RequestDispatcher 요청배달자 = request.getRequestDispatcher("/error");
             request.setAttribute("error", e);
-            request.setAttribute("title", "게시물 변경 실패");
-            // 다른 서블릿으로 실행을 위임할 때,
-            // 이전까지 버퍼로 출력한 데이터를 버린다.
-            
+            request.setAttribute("title", "게시물 변경 실패!");
             요청배달자.forward(request, response);
         }
     }
+    
 }
 
+//ver 40 - 필터 적용
+//ver 39 - forward 적용
 //ver 38 - redirect 적용
 //ver 37 - BoardUpdateController를 서블릿으로 변경
 //         결과를 HTML로 출력

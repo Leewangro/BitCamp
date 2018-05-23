@@ -1,8 +1,7 @@
-// Controller 규칙에 따라 메서드 작성
 package bitcamp.java106.pms.servlet.teammember;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URLEncoder;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,9 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+
 import bitcamp.java106.pms.dao.TeamDao;
 import bitcamp.java106.pms.dao.TeamMemberDao;
-import bitcamp.java106.pms.servlet.InitServlet;
+import bitcamp.java106.pms.support.WebApplicationContextUtils;
 
 @SuppressWarnings("serial")
 @WebServlet("/team/member/delete")
@@ -24,38 +25,47 @@ public class TeamMemberDeleteServlet extends HttpServlet {
     
     @Override
     public void init() throws ServletException {
-        this.teamDao = InitServlet.getApplicationContext().getBean(TeamDao.class);
-        this.teamMemberDao = InitServlet.getApplicationContext().getBean(TeamMemberDao.class);
+        ApplicationContext iocContainer = 
+                WebApplicationContextUtils.getWebApplicationContext(
+                        this.getServletContext()); 
+        teamDao = iocContainer.getBean(TeamDao.class);
+        teamMemberDao = iocContainer.getBean(TeamMemberDao.class);
     }
+    
     @Override
     protected void doGet(
             HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
-       
-        request.setCharacterEncoding("UTF-8");
         
         String teamName = request.getParameter("teamName");
         String memberId = request.getParameter("memberId");
         
+        
         try {
             int count = teamMemberDao.delete(teamName, memberId);
             if (count == 0) {
-                throw new Exception("해당 팀원이 존재하지 않습니다.");
-            }response.sendRedirect("../view?name="+teamName);
+                throw new Exception("<p>해당 팀원이 존재하지 않습니다.</p>");
+            }
+            response.sendRedirect("../view?name=" + 
+                    URLEncoder.encode(teamName, "UTF-8"));
+            // 개발자가 요청이나 응답헤더를 직접 작성하여 값을 주고 받으로 한다면,
+            // URL 인코딩과 URL 디코딩을 손수 해 줘야 한다.
+            
         } catch (Exception e) {
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
             RequestDispatcher 요청배달자 = request.getRequestDispatcher("/error");
             request.setAttribute("error", e);
-            request.setAttribute("title", "팀 회원 변경 실패");
-            // 다른 서블릿으로 실행을 위임할 때,
-            // 이전까지 버퍼로 출력한 데이터를 버린다.
-            
+            request.setAttribute("title", "팀 회원 삭제 실패!");
             요청배달자.forward(request, response);
         }
     }
+    
 }
 
+//ver 40 - CharacterEncodingFilter 필터 적용.
+//         request.setCharacterEncoding("UTF-8") 제거
+//ver 39 - forward 적용
+//ver 38 - redirect 적용
+//ver 37 - 컨트롤러를 서블릿으로 변경
 //ver 31 - JDBC API가 적용된 DAO 사용
 //ver 28 - 네트워크 버전으로 변경
 //ver 26 - TeamMemberController에서 delete() 메서드를 추출하여 클래스로 정의.
