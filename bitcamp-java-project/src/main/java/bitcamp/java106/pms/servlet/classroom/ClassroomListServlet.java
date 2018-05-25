@@ -1,10 +1,8 @@
 package bitcamp.java106.pms.servlet.classroom;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,51 +34,24 @@ public class ClassroomListServlet extends HttpServlet {
             HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
         
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<meta charset='UTF-8'>");
-        out.println("<title>강의 목록</title>");
-        out.println("</head>");
-        out.println("<body>");
-        
-        request.getRequestDispatcher("/header").include(request, response);
-        
-        out.println("<h1>강의 목록</h1>");
-        
         try {
             List<Classroom> list = classroomDao.selectList();
+            // JSP가 게시물 목록을 사용할 수 있도록 ServletRequest 보관소에 저장한다.
+            request.setAttribute("list", list);
             
-            out.println("<p><a href='form.html'>새 강의</a></p>");
-            out.println("<table border='1'>");
-            out.println("<tr>");
-            out.println("    <th>번호</th><th>강의명</th><th>기간</th><th>강의실</th>");
-            out.println("</tr>");
+            // include 한다면, 이 서블릿에서 콘텐트 타입을 지정해야 한다.
+            response.setContentType("text/html;charset=UTF-8");
             
-            for (Classroom classroom : list) {
-                out.println("<tr>");
-                out.printf("    <td>%d</td>\n", classroom.getNo());
-                out.printf("    <td><a href='view?no=%d'>%s</a></td>\n", 
-                        classroom.getNo(), classroom.getTitle());
-                out.printf("    <td>%s~%s</td>\n",
-                        classroom.getStartDate(), classroom.getEndDate());
-                out.printf("    <td>%s</td>\n", classroom.getRoom());
-                out.println("</tr>");
-            }
-            out.println("</table>");
+            // JSP를 실행한다. 실행 완료 후 이 서블릿으로 되돌아 온다.
+            request.getRequestDispatcher("/classroom/list.jsp").include(request, response);
+            
         } catch (Exception e) {
-            RequestDispatcher 요청배달자 = request.getRequestDispatcher("/error");
             request.setAttribute("error", e);
             request.setAttribute("title", "강의 목록조회 실패!");
             // 다른 서블릿으로 실행을 위임할 때,
             // 이전까지 버퍼로 출력한 데이터는 버린다.
-            요청배달자.forward(request, response);
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
-        out.println("</body>");
-        out.println("</html>");
     }
 }
 
