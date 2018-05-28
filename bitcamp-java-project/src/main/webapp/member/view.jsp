@@ -1,6 +1,4 @@
 <%@page import="bitcamp.java106.pms.domain.Member"%>
-<%@page import="java.util.List"%>
-<%@page import="bitcamp.java106.pms.domain.Task"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -8,60 +6,27 @@
 <html>
 <head>
 <meta charset='UTF-8'>
-<title>작업 보기</title>
+<title>멤버 보기</title>
 </head>
 <body>
-
-<%
-out.flush();
-request.getRequestDispatcher("/header.jsp").include(request, response);%>
-
-<h1>작업 보기(MVC)</h1>
-<%
-Task task = (Task)request.getAttribute("task");
-%>
+<jsp:include page="/header.jsp"/>
+<h1>멤버 보기(MVC + JSP 전용 태그)</h1>
+<jsp:useBean id="member" class="bitcamp.java106.pms.domain.Member" scope="request"/>
 <form action='update' method='post'>
-<input type='hidden' name='no' value='<%=request.getParameter("no")%>'>
 <table border='1'>
-<tr>
-    <th>팀명</th>
-    <td><input type='text' name='teamName' value='<%=task.getTeam().getName()%>' readOnly></td>
-</tr>
-<tr>
-    <th>작업명</th>
-    <td><input type='text' name='title' value='<%=task.getTitle()%>'></td>
-</tr>
-<tr>
-    <th>시작일</th>
-    <td><input type='date' name='startDate' value='<%=task.getStartDate()%>'></td></tr>
-<tr>
-    <th>종료일</th>
-    <td><input type='date' name='endDate' value='<%=task.getEndDate()%>'></td></tr>
-<tr>
-    <th>작업자</th>
-    <td>
-        <select name='memberId'>
-            <option value=''>--선택 안함--</option>
-<% 
-List<Member> members = (List<Member>) request.getAttribute("members");
-for (Member member : members) {
-    String selected = (member.equals(task.getWorker())) ? "selected" : "";
-%>
-            <option <%=selected%>><%=member.getId()%></option>
-<%} %>
-        </select>
-    </td>
-</tr>
-<tr>
-    <th>작업상태</th><td><select name='state'>
-        <option value='0' <%=(task.getState() == 0) ? "selected" : "" %>>작업대기</option>
-        <option value='1' <%=(task.getState() == 1) ? "selected" : "" %>>작업중</option>
-        <option value='9' <%=(task.getState() == 9) ? "selected" : "" %>>작업완료</option>
-    </select></td>
-</tr>
+<tr><th>아이디</th><td>
+    <input type='text' name='id' value='<%=member.getId()%>' readonly></td></tr>
+<tr><th>이메일</th>
+    <td><input type='email' name='email' value='<%=member.getEmail()%>'></td></tr>
+<tr><th>암호</th>
+    <td><input type='password' name='password'></td></tr>
+
 </table>
-<button>변경</button> 
-<a href='delete?no=<%=request.getParameter("no")%>&teamName=<%=task.getTeam().getName()%>'>삭제</a>
+<p>
+<a href='list'>목록</a>
+<button>변경</button>
+<a href='delete?id=<%=member.getId()%>'>삭제</a>
+</p>
 </form>
 </body>
 </html>
