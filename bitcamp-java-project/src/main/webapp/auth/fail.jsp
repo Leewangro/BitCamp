@@ -7,7 +7,7 @@
 <head>
 <meta charset='UTF-8'>
 <meta http-equiv='Refresh' content='1;url=<%=request.getContextPath()%>/auth/form.jsp'>
-<title>로그인</title>
+<title>로그인 + EL</title>
 </head>
 
 <body>
