@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 import bitcamp.java106.pms.controller.PageController;
 import bitcamp.java106.pms.dao.MemberDao;
 import bitcamp.java106.pms.domain.Member;
+import bitcamp.java106.pms.web.RequestMapping;
 
 @Component("/member/update")
-public class MemberUpdateController implements PageController {
+public class MemberUpdateController   {
 
     MemberDao memberDao;
     
@@ -18,7 +19,7 @@ public class MemberUpdateController implements PageController {
         this.memberDao = memberDao;
     }
     
-    @Override
+    @RequestMapping
     public String service(
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {

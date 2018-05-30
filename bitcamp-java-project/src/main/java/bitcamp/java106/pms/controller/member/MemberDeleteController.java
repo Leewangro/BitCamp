@@ -7,9 +7,10 @@ import org.springframework.stereotype.Component;
 
 import bitcamp.java106.pms.controller.PageController;
 import bitcamp.java106.pms.dao.MemberDao;
+import bitcamp.java106.pms.web.RequestMapping;
 
 @Component("/member/delete")
-public class MemberDeleteController implements PageController {
+public class MemberDeleteController   {
 
     MemberDao memberDao;
     
@@ -17,7 +18,7 @@ public class MemberDeleteController implements PageController {
         this.memberDao = memberDao;
     }
     
-    @Override
+    @RequestMapping
     public String service(
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {

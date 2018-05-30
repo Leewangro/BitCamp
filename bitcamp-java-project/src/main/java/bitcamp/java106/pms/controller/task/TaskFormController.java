@@ -12,9 +12,10 @@ import bitcamp.java106.pms.dao.TeamDao;
 import bitcamp.java106.pms.dao.TeamMemberDao;
 import bitcamp.java106.pms.domain.Member;
 import bitcamp.java106.pms.domain.Team;
+import bitcamp.java106.pms.web.RequestMapping;
 
 @Component("/task/form")
-public class TaskFormController implements PageController {
+public class TaskFormController   {
     
     TeamDao teamDao;
     TeamMemberDao teamMemberDao;
@@ -25,7 +26,7 @@ public class TaskFormController implements PageController {
         this.teamMemberDao = teamMemberDao;
     }
     
-    @Override
+    @RequestMapping
     public String service(
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {

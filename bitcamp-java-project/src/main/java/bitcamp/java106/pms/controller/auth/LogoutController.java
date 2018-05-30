@@ -7,11 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 import bitcamp.java106.pms.controller.PageController;
+import bitcamp.java106.pms.web.RequestMapping;
 
 @Component("/auth/logout")
-public class LogoutController implements PageController {
+public class LogoutController  {
     
-    @Override
+    @RequestMapping
     public String service(
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
