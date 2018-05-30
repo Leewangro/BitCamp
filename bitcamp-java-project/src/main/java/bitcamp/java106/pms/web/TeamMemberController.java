@@ -1,6 +1,7 @@
-package bitcamp.java106.pms.controller.teammember;
+package bitcamp.java106.pms.web;
 
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,14 +16,14 @@ import bitcamp.java106.pms.domain.Member;
 import bitcamp.java106.pms.domain.Team;
 import bitcamp.java106.pms.web.RequestMapping;
 
-@Component("/team/member/add")
-public class TeamMemberAddController   {
+@Component("/team/member")
+public class TeamMemberController   {
     
     TeamDao teamDao;
     MemberDao memberDao;
     TeamMemberDao teamMemberDao;
     
-    public TeamMemberAddController(TeamDao teamDao, 
+    public TeamMemberController(TeamDao teamDao, 
             MemberDao memberDao,
             TeamMemberDao teamMemberDao) {
         this.teamDao = teamDao;
@@ -30,8 +31,8 @@ public class TeamMemberAddController   {
         this.teamMemberDao = teamMemberDao;
     }
     
-    @RequestMapping
-    public String service(
+    @RequestMapping("/add")
+    public String add(
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
@@ -52,6 +53,36 @@ public class TeamMemberAddController   {
         teamMemberDao.insert(teamName, memberId);
         return "redirect:../view.do?name=" + 
                 URLEncoder.encode(teamName, "UTF-8");
+    }
+    
+    @RequestMapping("/delete")
+    public String delete(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+         
+        String teamName = request.getParameter("teamName");
+        String memberId = request.getParameter("memberId");
+        
+        int count = teamMemberDao.delete(teamName, memberId);
+        if (count == 0) {
+            throw new Exception("<p>해당 팀원이 존재하지 않습니다.</p>");
+        }
+        return "redirect:../view.do?name=" + 
+                URLEncoder.encode(teamName, "UTF-8");
+        // 개발자가 요청이나 응답헤더를 직접 작성하여 값을 주고 받으로 한다면,
+        // URL 인코딩과 URL 디코딩을 손수 해 줘야 한다.
+    }
+    
+    @RequestMapping("/list")
+    public String list(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+       
+        String name = request.getParameter("name");
+
+        List<Member> members = teamMemberDao.selectListWithEmail(name);
+        request.setAttribute("members", members);
+        return "/team/member/list.jsp";
     }
     
 }

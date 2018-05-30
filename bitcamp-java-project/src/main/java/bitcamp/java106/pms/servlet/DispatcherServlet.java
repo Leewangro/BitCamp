@@ -58,13 +58,19 @@ public class DispatcherServlet extends HttpServlet {
         // 클라이언트가 요청한 서블릿의 경로를 알아내기
         String servletPath = request.getServletPath().replace(".do", "");
         
+        // servletPath에서 객체명 추출하기
+        // => 즉 맨 끝에 /이후의 문자열을 제외한 이름
+        // => 예) /board/add ===> /board
+        int index = servletPath.lastIndexOf("/");
+        String objName = servletPath.substring(0, index);
+        String hadlerPath = servletPath.substring(index);
         // 페이지 컨트롤러 실행
         try {
             // 클라이언트 요청을 처리할 페이지 컨트롤러를 얻기
-            Object pageController = iocContainer.getBean(servletPath);
+            Object pageController = iocContainer.getBean(objName);
             
             // 클라이언트 요청을 처리하는 메서드(request handler)를 알아낸다.
-            Method requestHandler = findRequestHandler(pageController);
+            Method requestHandler = findRequestHandler(pageController,hadlerPath);
 
             if (requestHandler == null)
                 throw new ServletException("요청을 처리할 요청 핸들러가 없습니다.");
@@ -81,12 +87,12 @@ public class DispatcherServlet extends HttpServlet {
         }
     }
 
-    private Method findRequestHandler(Object pageController) throws Exception {
+    private Method findRequestHandler(Object pageController,String hadlerPath) throws Exception {
         Class<?> clazz = pageController.getClass();
         Method[] methods = clazz.getDeclaredMethods();
         for (Method m : methods) {
             RequestMapping anno = m.getAnnotation(RequestMapping.class);
-            if (anno != null)
+            if (anno != null && anno.value().equals(hadlerPath))
                 return m;
         }
         return null;

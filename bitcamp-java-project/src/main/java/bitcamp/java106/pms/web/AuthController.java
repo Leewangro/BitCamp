@@ -1,5 +1,5 @@
 // 로그인 폼 출력과 사용자 인증처리 서블릿
-package bitcamp.java106.pms.controller.auth;
+package bitcamp.java106.pms.web;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -14,16 +14,16 @@ import bitcamp.java106.pms.domain.Member;
 import bitcamp.java106.pms.web.RequestMapping;
 
 @Component("/auth/login")
-public class LoginController  {
+public class AuthController  {
     
     MemberDao memberDao;
     
-    public LoginController(MemberDao memberDao) {
+    public AuthController(MemberDao memberDao) {
         this.memberDao = memberDao;
     }
     
     @RequestMapping
-    public String service(
+    public String login(
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
@@ -65,6 +65,18 @@ public class LoginController  {
             session.invalidate();
             return "/auth/fail.jsp";
         }
+    }
+    
+    @RequestMapping("/logout")
+    public String logout(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        // 세션을 꺼내 무효화시킨다.
+        request.getSession().invalidate();
+        
+        // 웹 애플리케이션의 시작 페이지로 가라고 웹브라우저에게 얘기한다.
+        return "redirect:" + request.getContextPath(); // ==> "/java106-java-project"
     }
 }
 
