@@ -74,7 +74,7 @@ public class DispatcherServlet extends HttpServlet {
         String objName = servletPath.substring(0, index);
         String handlerPath = servletPath.substring(index);
         
-        // 페이지 컨트롤러 실행
+        // 페이지 컨트롤러 실행 
         try {
             // 클라이언트 요청을 처리할 페이지 컨트롤러를 얻기
             Object pageController = iocContainer.getBean(objName);
