@@ -1,11 +1,8 @@
 package bitcamp.java106.pms.web;
 
-import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 
@@ -40,8 +37,11 @@ public class TeamController   {
     @RequestMapping("/delete")
     public String delete(
             @RequestParam("name") String name) throws Exception {
-        
-        
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("teamName", name);
+        teamMemberDao.delete(params);
+        taskDao.deleteByTeam(name);
+         
         int count = teamDao.delete(name);
         if (count == 0) {
             throw new Exception ("해당 팀이 없습니다.");
