@@ -19,14 +19,14 @@ public class BoardDao {
     
     
      
-    public List<Board> selectList() throws Exception {
+    public List<Board> selectList() {
         try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
             return sqlSession.selectList(
                     "BoardMapper.selectList");
         }
     }
-
-    public int insert(Board board) throws Exception {
+ 
+    public int insert(Board board) {
         try (SqlSession sqlSession = this.sqlSessionFactory.openSession()) {
             int count = sqlSession.insert(
                     "BoardMapper.insert", board);
