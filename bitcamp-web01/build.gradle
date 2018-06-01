@@ -36,6 +36,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     
 	compile group: 'javax.servlet', name: 'jstl', version: '1.2'    
+	
+	// 로컬.jar파일 등록
+	compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 repositories {
