@@ -11,7 +11,7 @@ dao.BoardDao 생성
 학습
 
 프론트 컨트롤러들이 공유하는 객체는 ContextLoaderListener를 사용하여 관리할 수 있다.
-src02 - 멀티 프론트 컨트롤러 설정
+## src02 - 멀티 프론트 컨트롤러 설정
 URL에 따라 여러 개의 프론트 커트롤러를 설정
 작업
 web.xml 변경
