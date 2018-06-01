@@ -5,9 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>hello2</title>
+<title>add</title>
 </head>
 <body>
-<h1>Hello2!</h1>
+<h1>입력했습니다!</h1>
 </body>
 </html>
