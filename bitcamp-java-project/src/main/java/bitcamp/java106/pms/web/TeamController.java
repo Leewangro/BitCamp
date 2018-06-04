@@ -15,13 +15,14 @@ import bitcamp.java106.pms.domain.Team;
 
 @Controller
 @RequestMapping("/team")
-public class TeamController   {
+public class TeamController {
 
     TeamDao teamDao;
     TeamMemberDao teamMemberDao;
     TaskDao taskDao;
     
-    public TeamController(TeamDao teamDao, 
+    public TeamController(
+            TeamDao teamDao, 
             TeamMemberDao teamMemberDao,
             TaskDao taskDao) {
         this.teamDao = teamDao;
@@ -30,22 +31,24 @@ public class TeamController   {
     }
     
     @RequestMapping("/add")
-    public String add(
-            Team team) throws Exception {
+    public String add(Team team) throws Exception {
         
-       
         teamDao.insert(team);
         return "redirect:list.do";
     }
+    
     @RequestMapping("/delete")
-    public String delete(
-            @RequestParam("name") String name) throws Exception {
-        HashMap<String, Object> params = new HashMap<>();
+    public String delete(@RequestParam("name") String name) throws Exception {
+        
+        HashMap<String,Object> params = new HashMap<>();
         params.put("teamName", name);
+        
         teamMemberDao.delete(params);
+        
         taskDao.deleteByTeam(name);
-         
+        
         int count = teamDao.delete(name);
+        
         if (count == 0) {
             throw new Exception ("해당 팀이 없습니다.");
         }
@@ -53,8 +56,7 @@ public class TeamController   {
     }
     
     @RequestMapping("/list")
-    public String list(
-            Map<String,Object> map) throws Exception {
+    public String list(Map<String,Object> map) throws Exception {
         
         List<Team> list = teamDao.selectList();
         map.put("list", list);
@@ -62,9 +64,7 @@ public class TeamController   {
     }
     
     @RequestMapping("/update")
-    public String update(
-            Team team) throws Exception {
-        
+    public String update(Team team) throws Exception {
         
         int count = teamDao.update(team);
         if (count == 0) {
@@ -75,9 +75,8 @@ public class TeamController   {
     
     @RequestMapping("/view")
     public String view(
-            @RequestParam("name") String name, 
+            @RequestParam("name") String name,
             Map<String,Object> map) throws Exception {
-        
         
         Team team = teamDao.selectOneWithMembers(name);
         if (team == null) {
@@ -86,8 +85,27 @@ public class TeamController   {
         map.put("team", team);
         return "/team/view.jsp";
     }
+    
+    // GlobalBindingInitializer 에 등록했기 때문에 이 클래스에서는 제외한다.
+    /*
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(
+                java.sql.Date.class, 
+                new PropertyEditorSupport() {
+                    @Override
+                    public void setAsText(String text) throws IllegalArgumentException {
+                        this.setValue(java.sql.Date.valueOf(text));
+                    }
+                });
+    }
+    */
 }
 
+//ver 51 - Spring WebMVC 적용
+//ver 49 - 요청 핸들러의 파라미터 값 자동으로 주입받기
+//ver 48 - CRUD 기능을 한 클래스에 합치기
+//ver 47 - 애노테이션을 적용하여 요청 핸들러 다루기
 //ver 46 - 페이지 컨트롤러를 POJO를 변경
 //ver 45 - 프론트 컨트롤러 적용
 //ver 42 - JSP 적용
