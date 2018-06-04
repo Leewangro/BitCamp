@@ -26,12 +26,12 @@ public class BoardController {
         
         boardDao.insert(board);
         return "redirect:list.do";
-    }
+    } 
     
     @RequestMapping("/delete")
     public String delete(@RequestParam("no") int no) throws Exception {
         
-        int count = boardDao.delete(no);
+        int count = boardDao.delete(no); 
         if (count == 0) {
             throw new Exception("해당 게시물이 없습니다.");
         }
