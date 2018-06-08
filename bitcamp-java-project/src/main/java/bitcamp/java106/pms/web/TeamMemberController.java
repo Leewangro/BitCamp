@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -83,10 +84,15 @@ public class TeamMemberController {
     
     @RequestMapping("list")
     public void list(
-            @RequestParam("name") String teamName,
+            @MatrixVariable(defaultValue="1") int pageNo,
+            @MatrixVariable(defaultValue="3") int pageSize,
             Map<String,Object> map) throws Exception {
+        
+        HashMap<String,Object> params = new HashMap<>();
+        params.put("startRowNo", (pageNo - 1) * pageSize);
+        params.put("pageSize", pageSize);
        
-        List<Member> members = teamMemberDao.selectListWithEmail(teamName);
+        List<Member> members = teamMemberDao.selectListWithEmail(params);
         map.put("members", members);
     }
 }

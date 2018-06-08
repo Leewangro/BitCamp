@@ -12,8 +12,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
     
     <context:component-scan base-package="bitcamp.mvc.web"/>
-
-	<mvc:annotation-driven enable-matrix-variables="true"/>
+	<mvc:annotation-driven/>
     <!-- Spring WebMVC의 기본 뷰 리졸버를 교체한다.
          => JSP URL의 앞뒤 경로를 미리 설정해두면 페이지 컨트롤러에서 
             view URL을 지정하기 쉽다.  

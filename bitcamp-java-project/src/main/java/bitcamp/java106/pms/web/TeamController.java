@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +22,7 @@ public class TeamController {
     TeamDao teamDao;
     TeamMemberDao teamMemberDao;
     TaskDao taskDao;
-    
+
     public TeamController(
             TeamDao teamDao, 
             TeamMemberDao teamMemberDao,
@@ -35,51 +36,58 @@ public class TeamController {
     }
     @RequestMapping("/add")
     public String add(Team team) throws Exception {
-        
+
         teamDao.insert(team);
         return "redirect:list";
     }
-    
+
     @RequestMapping("/delete")
     public String delete(@RequestParam("name") String name) throws Exception {
-        
+
         HashMap<String,Object> params = new HashMap<>();
         params.put("teamName", name);
-        
+
         teamMemberDao.delete(params);
-        
+
         taskDao.deleteByTeam(name);
-        
+
         int count = teamDao.delete(name);
-        
+
         if (count == 0) {
             throw new Exception ("해당 팀이 없습니다.");
         }
         return "redirect:list";
     }
-    
-    @RequestMapping("/list")
-    public void list(Map<String,Object> map) throws Exception {
-        
-        List<Team> list = teamDao.selectList();
+
+    @RequestMapping("/list{page}")
+    public void list(
+            @MatrixVariable(defaultValue="1") int pageNo,
+            @MatrixVariable(defaultValue="3") int pageSize,
+            Map<String,Object> map) throws Exception {
+
+        HashMap<String,Object> params = new HashMap<>();
+        params.put("startRowNo", (pageNo - 1) * pageSize);
+        params.put("pageSize", pageSize);
+
+        List<Team> list = teamDao.selectList(params);
         map.put("list", list);
     }
-    
+
     @RequestMapping("/update")
     public String update(Team team) throws Exception {
-        
+
         int count = teamDao.update(team);
         if (count == 0) {
             throw new Exception("<p>해당 팀이 존재하지 않습니다.</p>");
         }
         return "redirect:list";
     }
-    
+
     @RequestMapping("{name}")
     public String view(
             @PathVariable String name,
             Map<String,Object> map) throws Exception {
-        
+
         Team team = teamDao.selectOneWithMembers(name);
         if (team == null) {
             throw new Exception("유효하지 않은 팀입니다.");
@@ -87,7 +95,7 @@ public class TeamController {
         map.put("team", team);
         return "team/view";
     }
-    
+
     // GlobalBindingInitializer 에 등록했기 때문에 이 클래스에서는 제외한다.
     /*
     @InitBinder
@@ -101,7 +109,7 @@ public class TeamController {
                     }
                 });
     }
-    */
+     */
 }
 
 //ver 51 - Spring WebMVC 적용

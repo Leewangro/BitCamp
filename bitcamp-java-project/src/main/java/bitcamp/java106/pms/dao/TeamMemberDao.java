@@ -16,6 +16,8 @@ public interface TeamMemberDao {
     List<String> selectList(String teamName) ;
 
     List<Member> selectListWithEmail(String teamName);
+    
+    List<Member> selectListWithEmail(Map<String,Object> params);
 
     boolean isExist(Map<String, Object> params); 
 }
