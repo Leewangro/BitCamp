@@ -15,7 +15,8 @@
           resultMap="MemberMap" parameterType="map">
     select mid, email, pwd 
     from pms2_member
-      <!-- limit #{startRowNo}, #{pageSize} --> 
+    order by mid asc
+    limit #{startRowNo}, #{pageSize}
   </select>
   
   <insert id="insert" parameterType="Member">
@@ -46,9 +47,6 @@
     delete from pms2_member where mid=#{value}
   </delete>
 </mapper>
-
-
-
 
 
 

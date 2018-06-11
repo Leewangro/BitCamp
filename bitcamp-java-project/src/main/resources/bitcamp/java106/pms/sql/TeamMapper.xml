@@ -21,8 +21,8 @@
           resultMap="TeamMap" parameterType="map">
     select name, sdt, edt, max_qty 
     from pms2_team
-     order by name desc
-      limit #{startRowNo}, #{pageSize}
+    order by name asc
+    limit #{startRowNo}, #{pageSize}
   </select>
   <!-- 
     ArrayList<Task> list = new new ArrayList<>();
@@ -82,10 +82,3 @@
     where tano=#{no}
   </update>
 </mapper>
-
-
-
-
-
-
-

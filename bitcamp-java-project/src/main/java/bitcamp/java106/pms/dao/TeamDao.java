@@ -6,20 +6,16 @@ import java.util.Map;
 import bitcamp.java106.pms.domain.Team;
 
 public interface TeamDao {
-
-    int delete(String name) ;
-
+    int delete(String name);
     List<Team> selectList(Map<String,Object> params);
-
-    int insert(Team team); 
-
-    int update(Team team) ;
-
+    int insert(Team team);
+    int update(Team team);
     Team selectOne(String name);
-
     Team selectOneWithMembers(String name);
 }
 
+//ver 52 - 페이지 단위로 데이터 가져오기
+//ver 50 - 클래스를 인터페이스로 전환
 //ver 42 - JSP 적용에 따라 Team 정보를 가져올 때 그 팀의 Member 정보도 함께 가져온다.
 //         selectOneWithMembers() 추가
 //ver 33 - Mybatis 적용 
@@ -32,8 +28,3 @@ public interface TeamDao {
 //ver 18 - ArrayList 클래스를 적용하여 객체(의 주소) 목록을 관리한다.
 //ver 16 - 인스턴스 변수를 직접 사용하는 대신 겟터, 셋터 사용.
 //ver 14 - TeamController로부터 데이터 관리 기능을 분리하여 TeamDao 생성.
-
-
-
-
-
