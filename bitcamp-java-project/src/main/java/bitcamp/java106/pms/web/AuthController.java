@@ -1,8 +1,6 @@
 // 로그인 폼 출력과 사용자 인증처리 서블릿
 package bitcamp.java106.pms.web;
 
-import java.util.HashMap;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,32 +10,31 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import bitcamp.java106.pms.dao.MemberDao;
-import bitcamp.java106.pms.domain.Member;
+import bitcamp.java106.pms.service.MemberService;
 
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-
-    MemberDao memberDao;
-
-    public AuthController(MemberDao memberDao) {
-        this.memberDao = memberDao;
+    
+    MemberService memberService;
+     
+    public AuthController(MemberService memberService) {
+        this.memberService = memberService;
     }
-    @RequestMapping("/form") 
+    
+    @RequestMapping("/form")
     public void form() {
-        
     }
             
-    @RequestMapping("/login") 
+    @RequestMapping("/login")
     public String login(
             @RequestParam("id") String id,
             @RequestParam("password") String password,
-            @RequestParam(value = "saveId",required=false) String saveId,
+            @RequestParam(value="saveId",required=false) String saveId,
             HttpServletRequest request,
             HttpServletResponse response,
             HttpSession session) throws Exception {
-
+        
         Cookie cookie = null;
         if (saveId != null) {
             // 입력폼에서 로그인할 때 사용한 ID를 자동으로 출력할 수 있도록 
@@ -50,43 +47,37 @@ public class AuthController {
             // 즉 유효기간을 0으로 설정함으로써 "id"라는 이름의 쿠키를 무효화시키는 것이다.
         }
         response.addCookie(cookie);
-
-        HashMap<String,Object> params = new HashMap<>();
-        params.put("id", id);
-        params.put("password", password);
-
-        Member member = memberDao.selectOneWithPassword(params);
-
-        if (member != null) { // 로그인 성공!
-            session.setAttribute("loginUser", member);
+        
+        if (memberService.isExist(id, password)) { // 로그인 성공!
+            session.setAttribute("loginUser", memberService.get(id));
 
             // 로그인 하기 전의 페이지로 이동한다.
             String refererUrl = (String)session.getAttribute("refererUrl");
-
+            
             if (refererUrl == null || 
-                    refererUrl.contains("login.do") ||
-                    refererUrl.endsWith("/auth/form.jsp")) { 
+                refererUrl.contains("login.do") ||
+                refererUrl.endsWith("/auth/form.jsp")) { 
                 // 이전 페이지가 없다면 메인 화면으로 이동시킨다.
                 return "redirect:/"; // => "/java106-java-project"
             } else { 
                 // 이전 페이지가 있다면 그 페이지로 이동시킨다.
                 return "redirect:" + refererUrl;
             }
-
+            
         } else { // 로그인 실패!
             session.invalidate();
-            return "/auth/fail";
+            return "auth/fail";
         }
     }
-
+    
     @RequestMapping("/logout")
     public String logout(
             HttpServletRequest request,
             HttpSession session) throws Exception {
-
+        
         // 세션을 꺼내 무효화시킨다.
         session.invalidate();
-
+        
         // 웹 애플리케이션의 시작 페이지로 가라고 웹브라우저에게 얘기한다.
         return "redirect:/"; // ==> "/java106-java-project"
     }
@@ -110,3 +101,5 @@ public class AuthController {
 //ver 45 - 프론트 컨트롤러 적용
 //ver 42 - JSP 적용
 //ver 41 - 클래스 추가
+
+

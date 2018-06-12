@@ -10,6 +10,7 @@ public interface MemberService {
     // 업무 용어를 사용하라!
     List<Member> list(int pageNo, int pageSize);
     Member get(String id);
+    boolean isExist(String id, String password);
     int add(Member member);
     int update(Member member);
     int delete(String id);

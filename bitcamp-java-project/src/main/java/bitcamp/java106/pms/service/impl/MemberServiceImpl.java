@@ -26,24 +26,32 @@ public class MemberServiceImpl implements MemberService {
 
         return memberDao.selectList(params);
     }
-    
+
     @Override
     public Member get(String id) {
         return memberDao.selectOne(id);
     }
-    
+
     @Override
     public int add(Member member) {
         return memberDao.insert(member);
     }
-    
+
     @Override
     public int update(Member member) {
         return memberDao.update(member);
     }
-    
+
     @Override
     public int delete(String id) {
         return memberDao.delete(id);
+    }
+    @Override
+    public boolean isExist(String id, String password) {
+        HashMap<String,Object> params = new HashMap<>();
+        params.put("id", id);
+        params.put("password",password);
+
+        return memberDao.count(params)>0 ? true : false;
     }
 }
