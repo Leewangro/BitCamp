@@ -1,0 +1,25 @@
+
+
+plugins {
+
+    id 'java'
+    id 'eclipse-wtp'
+    id 'war'
+}
+
+// Define the main class for the application
+
+
+dependencies {
+    compile 'com.google.guava:guava:23.0'
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+ 	providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    testCompile 'junit:junit:4.12'
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
