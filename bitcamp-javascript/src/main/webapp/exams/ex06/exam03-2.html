@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ex06</title>
+</head>
+<body>
+<h1>이벤트 - 이벤트 정보 다루기 I</h1>
+<button id="btn1" data-no="100">버튼1</button><br>
+
+<script>
+"use strict"
+
+document.getElementById("btn1").addEventListener("click",function(e) => {
+	console.log(this);
+	console.log(e.target);
+	console.log(getAttribute("data-no"));
+});
+
+</script>
+</body>
+</html>

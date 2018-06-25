@@ -40,6 +40,9 @@
 	       <bean class="bitcamp.mvc.web.Exam09_1_interceptor"/>
 	   </mvc:interceptor>
 	</mvc:interceptors>
+	
+	
+	
 </beans>
 
 
