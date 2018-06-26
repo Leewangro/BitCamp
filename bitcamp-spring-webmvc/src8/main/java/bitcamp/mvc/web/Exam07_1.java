@@ -1,0 +1,27 @@
+// view resolver 다루기 - 기본 뷰 리졸버를 InternalResourceViewResolver로 교체한다.
+package bitcamp.mvc.web;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller 
+@RequestMapping("/exam07_1") 
+public class Exam07_1 {
+    
+    @GetMapping(value="m1",produces="text/palin;charset=UTF-8")  
+    @ResponseBody
+    public String m1(String name, int age) {
+        return String.format("m1():name=%s, age=%d", name, age);
+    }
+    
+    @GetMapping(value="m2/{name}/{age}",produces="text/palin;charset=UTF-8")  
+    @ResponseBody
+    public String m2(
+            @PathVariable String name,
+            @PathVariable int age) {
+        return String.format("m2():name=%s, age=%d", name, age);
+    }
+}
