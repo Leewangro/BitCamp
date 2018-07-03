@@ -41,7 +41,7 @@
 .back-image{
 	background-image:url('../test/11.PNG');
 	background-repeat:no-repeat;
-	background-attachment: local;
+	background-size:cover;
+	background-attachment: scroll;
 }
 
-/

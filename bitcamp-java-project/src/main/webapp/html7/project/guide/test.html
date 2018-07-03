@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>렌터카</title>
+<meta charset="utf-8">
+<style>
+    div {
+    display: block;
+    }
+    
+    a, fieldset, img, table {
+    border: 0;
+    }
+    
+    a, a:active, a:hover, a:link, a:visited {
+    color: inherit;
+    text-decoration: none;
+    }
+    
+    
+    blockquote, body, button, caption, dd, div, dl, dt, fieldset, form, frame, h1, h2, h3, h4, h5, h6, hr, html, iframe, input, legend, li, object, ol, p, pre, q, select, table, td, textarea, tr, ul {
+    margin: 0;
+    padding: 0;
+    }
+    
+    ol, ul {
+    list-style: none;
+    }
+    
+    article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+    }
+    
+    .clear{
+        clear: both;
+    }
+    
+    .clear:after {
+    display: block;
+    content: "";
+    clear: both;
+    }
+    
+    
+    .header{
+        position: fixed;
+        width: 100%;
+        height: 161px;
+        background-color: rgba(0, 0, 0, .5);        
+    }
+    .footer{
+        width: 100%;
+        height: 731px;
+        background-color: rgba(0, 0, 0, .5);
+        z-index: 100;
+        float: left;
+    }
+    
+    #sub7_container {
+    padding-top: 161px;
+    min-height: 500px;
+    }
+    
+    #content{
+        margin: 0 auto;
+        padding: 0px 20px;
+        width: 1160px;
+    }
+    
+    .location_wrap{
+        height: 27px;
+        padding: 11px 28px;
+        border: 1px solid #e5e5e5;
+        border-top: 0;
+    }
+    .location{
+        float: left;
+    }
+    
+    .ico_home{
+        width: 15px;
+        height: 27px;
+        background: url(img/common/ico_home.png) no-repeat 0 50%;
+        text-indent: -9999px;
+    }
+    
+    .location_wrap .location a, .location_wrap .location div.lst_depth, .location_wrap .location span {
+    display: block;
+    float: left;
+    }
+    
+    .location_wrap .location .lst_depth, .location_wrap .location .p_depth {
+    height: 27px;
+    margin-left: 6px;
+    font-size: 14px;
+    color: #959595;
+    line-height: 27px;
+    }
+    
+    .location_wrap .location .lst_depth .btn_dropdown {
+    padding-right: 15px;
+    color: #535353;
+    background: url(img/common/bg_locaion_dropdown.gif) no-repeat right 5px;
+    }
+    
+    .location_wrap .location {
+    float: left;
+    }
+    
+    .location_wrap .location a, .location_wrap .location div.lst_depth, .location_wrap .location span {
+    display: block;
+    float: left;
+    }
+    
+    .location_wrap .util_zone {
+    float: right;
+    }
+    
+    .location_wrap .util_zone .btn_s_lnk {
+    -webkit-box-shadow: 1px 1px #c1c1c1;
+    box-shadow: 1px 1px #c1c1c1;
+    }
+    
+    .location_wrap .util_zone .btn_s_lnk {
+    display: block;
+    float: left;
+    width: 73px;
+    height: 25px;
+    border: 1px solid #959595;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #959595;
+    line-height: 25px;
+    text-align: center;
+    }
+    .location_wrap .util_zone .util_list {
+    float: left;
+    margin-left: 27px;
+    }
+    .location_wrap .util_zone .util_list li {
+    float: left;
+    margin: 0 0 0 12px;
+    }
+    .location_wrap .util_zone .util_list li a.btn_kt {
+    margin-left: 0;
+    background: url(../img/common/ico_kakao.png) no-repeat 0 50%;
+    }
+    .location_wrap .util_zone .util_list li a.btn_fb {
+    margin-left: 0;
+    background: url(../img/common/ico_facebook.png) no-repeat 0 50%;
+    }
+    .location_wrap .util_zone .util_list li a.btn_tw {
+    margin-left: 0;
+    background: url(../img/common/ico_twitter.png) no-repeat 0 50%;
+    }
+    .location_wrap .util_zone .util_list li a.btn_pr {
+    margin-left: 0;
+    background: url(../img/common/ico_print.png) no-repeat 0 50%;
+    }
+    .location_wrap .util_zone .util_list li a.btn_re {
+    margin-left: 0;
+    background: url(../img/common/ico_report.png) no-repeat 0 50%;
+    }
+    .location_wrap .util_zone .util_list li a {
+    display: block;
+    width: 22px;
+    height: 27px;
+    margin-left: 17px;
+    text-indent: -9999px;
+    }
+    
+    .cont_wrap {
+    padding-top: 50px;
+    }
+    .cont_wrap h3 {
+    font-size: 35px;
+    color: #1b1b1b;
+    line-height: 35px;
+    text-align: center;
+    }
+    .cont_wrap .h3_txt, .cont_wrap .h4_txt {
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    }
+    .cont_wrap .h3_txt {
+    margin-top: 24px;
+    font-size: 18px;
+    color: #555;
+    line-height: 30px;
+    text-align: center;
+    }
+    
+    .theme_list {
+    margin-top: 64px;
+    border: 1px solid #e5e5e5;
+    border-bottom: 0;
+    }
+    .item_5 li {
+    width: 231px;
+    }
+    .theme_list li:first-child {
+    width: 20%;
+    border-left: 0;
+    }
+    .theme_list li {
+    display: table;
+    float: left;
+    width: 20%;
+    height: 42px;
+    border-bottom: 1px solid #e5e5e5;
+    border-left: 1px solid #e5e5e5;
+    }
+    .theme_list li {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+    .theme_list.item_5 li.on {
+    width: 230px;
+    }
+    .theme_list li a {
+    display: table-cell;
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    font-weight: 700;
+    color: #959595;
+    line-height: 24px;
+    text-align: center;
+    vertical-align: middle;
+    }
+    .theme_list li.on a {
+    background: #f19221;
+    color: #fff;
+    }
+    
+</style>
+</head>
+<body>
+    <div class="header">HEADER</div>
+    <div id="sub7_container">
+        <div id="content">
+            <div class="location_wrap clear">
+                <div class="location clear">
+                    <a class="ico_home">home</a>
+                    <div class="lst_depth">
+                        <a class="btn_dropdown">&gt; 여행필수정보</a>
+                    </div>
+                </div>
+                <div class="util_zone">
+                    <a href="javascript:void(0)" class="btn_s_lnk">단축 URL</a>
+                    <ul class="util_list">
+                        <li><a class="btn_kt">카카오톡</a></li>
+                        <li><a class="btn_fb">페이스북</a></li>
+                        <li><a class="btn_tw">트위터</a></li>
+                        <li><a class="btn_pr">인쇄</a></li>
+                        <li><a class="btn_re">틀린 정보 신고</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    
+    @import
+	url('https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css')
+	;
+
+body {
+	/* font-family: 'Noto Sans KR', sans-serif; */
+	font-family: 'NanumSquareRound', sans-serif;
+	font-size: 14px;
+}
+
+#sub7.container {
+	margin: 0 auto;
+	width: 1200px;
+	overflow: hidden;
+	clear: both;
+}
+
+.btn_url {
+	display: inline-block;
+	float: left;
+	width: 73px;
+	height: 25px;
+	border: 1px solid #959595;
+	border-radius: 5px;
+	font-size: 14px;
+	color: #959595;
+	line-height: 25px;
+	text-align: center;
+	margin-right: 5px;
+	border-radius: 5px;
+}
+
+.navbar {
+	position: relative;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-ms-flex-align: center;
+	align-items: center;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	padding: 0.5rem 1rem;
+}
+
+.navbar-light .navbar-brand {
+	color: rgba(0, 0, 0, 0.9);
+}
+
+.navbar-brand {
+	display: inline-block;
+	padding-top: 0.3125rem;
+	padding-bottom: 0.3125rem;
+	margin-right: 1rem;
+	font-size: 1.25rem;
+	line-height: inherit;
+	white-space: nowrap;
+}
+
+.bg-light {
+	background-color: #f8f9fa !important;
+}
+
+.menu {
+	float: right;
+	margin: 0;
+	padding: 3px;
+}
+
+.btn_write {
+	background-color: #f19221;
+	border-radius: 5px;
+	font-size: 16px;
+	font-weight: 700;
+	color: #fff;
+	line-height: 35px;
+	text-align: left;
+	margin-top: 250px;
+	float: right;
+}
+
+.btn_next {
+	background-color: white;
+	border-radius: 5px;
+	font-size: 16px;
+	font-weight: 700;
+	color: black;
+	line-height: 20px;
+	margin-top: 400px;
+	text-align: center;
+}
+    
+    
+    <div class="footer">FOOTER</div>
+    <button type="button" class="btn_write">글쓰기</button>
+		<div class="btn_next">
+			<button type="button"><<</button>
+			<button type="button"><</button>
+			<button type="button">></button>
+			<button type="button">>></button>
+		</div>
+    
+    
+</body>
+</html>
