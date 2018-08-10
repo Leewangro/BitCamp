@@ -110,5 +110,18 @@
 </div>
 <pre style = "width:100%; text-align:left; margin-top:10px; font-style:italic; font-weight:bold; font-size:50px;">Find My Partner</pre>
 
+<div id="map" style="width: 400px; height: 400px;">
+				<script type="text/javascript"
+					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a39a869b2b427425c966081cb35dc719"></script>
+				<script>
+					var container = document.getElementById('map');
+					var options = {
+						center : new daum.maps.LatLng(33.450701, 126.570667),
+						level : 3
+					};
+					var map = new daum.maps.Map(container, options);
+				</script>
+			</div>
+
 </body>
 </html>
